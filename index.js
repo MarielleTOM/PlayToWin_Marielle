@@ -5,7 +5,6 @@ const Jogo = require("./models/Jogo")
 const express = require("express");
 const app = express();
 
-// Middleware para analisar o corpo da solicitação
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
