@@ -7,12 +7,12 @@ const Jogo = conn.define('Jogo',{
         required:false
     },
     descricao:{
-        type:DataTypes.INTEGER,
-        required:true
+        type:DataTypes.STRING,
+        required:false
     },
     precoBase:{
         type:DataTypes.DOUBLE,
-        required:true
+        required:false
     },
 });
 
