@@ -23,6 +23,7 @@ app.get("/usuarios", async (req, res) => {
 })
 
 app.get("/usuarios/novo", (req, res) => {
+
     res.render("formUsuario");
 });
 
@@ -65,6 +66,13 @@ app.post("/jogos/novo", async (req, res) => {
         res.status(500).send("Erro ao inserir jogo");
     }
 });
+
+app.get("/usuarios/:id/update", async (req, res)=>{
+    const id = parseInt(req.params.id);
+    const usuario = await Usuario.findByPk(id, { raw: true})
+});
+
+
 
 app.listen(8000, () => {
     console.log("Servidor está ouvindo na porta 8000");
