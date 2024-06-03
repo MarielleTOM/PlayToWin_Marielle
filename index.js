@@ -4,7 +4,8 @@ const conn = require("./db/conn");
 const Usuario = require("./models/Usuario");
 const Jogo = require("./models/Jogo")
 const express = require("express");
-const handle = require("express-handlebars") 
+const handle = require("express-handlebars"); 
+const { where } = require("sequelize");
 const app = express();
 
 app.engine("handlebars", handle.engine());
@@ -23,7 +24,6 @@ app.get("/usuarios", async (req, res) => {
 })
 
 app.get("/usuarios/novo", (req, res) => {
-
     res.render("formUsuario");
 });
 
@@ -69,9 +69,26 @@ app.post("/jogos/novo", async (req, res) => {
 
 app.get("/usuarios/:id/update", async (req, res)=>{
     const id = parseInt(req.params.id);
-    const usuario = await Usuario.findByPk(id, { raw: true})
+    const usuario = await Usuario.findByPk(id, { raw: true});
+
+    res.render("formUsuario",{usuario})
 });
 
+app.post("/usuarios/:id/update", async (req,res) => {
+    const id = parseInt(req.params.id);
+    const dadosUsuario = {
+        nickname: req.body.nickname,
+        nome: req.body.nome,
+    }
+    const retorno = await Usuario.update({dadosUsuario, where: {id:id}});
+
+    if (retorno > 0){
+        res.redirect("/usuarios/novo");
+    }
+    else {
+        res.send("Erro ao atualizar usuario!")
+    }
+});
 
 
 app.listen(8000, () => {
